@@ -1,0 +1,444 @@
+/* =========================================
+   ADMIN STATISTICS STYLES
+   Advanced analytics and data visualization
+   ========================================= */
+
+.statistics-container {
+    max-width: 1400px;
+}
+
+/* =========================================
+   PAGE HEADER
+   ========================================= */
+
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.page-header h2 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0 0 0.25rem 0;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.page-header h2 i {
+    color: #2563eb;
+}
+
+.page-header .text-muted {
+    font-size: 0.875rem;
+    margin: 0;
+}
+
+.page-header .btn-success {
+    background: #10b981;
+    border-color: #10b981;
+}
+
+.page-header .btn-success:hover {
+    background: #059669;
+    border-color: #059669;
+}
+
+/* =========================================
+   METRICS GRID
+   ========================================= */
+
+.metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.metric-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.metric-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Metric Icons */
+.metric-icon {
+    width: 70px;
+    height: 70px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    flex-shrink: 0;
+}
+
+.metric-success {
+    background: rgba(16, 185, 129, 0.1);
+    color: #10b981;
+}
+
+.metric-match {
+    background: rgba(59, 130, 246, 0.1);
+    color: #3b82f6;
+}
+
+.metric-industries {
+    background: rgba(139, 92, 246, 0.1);
+    color: #8b5cf6;
+}
+
+.metric-companies {
+    background: rgba(245, 158, 11, 0.1);
+    color: #f59e0b;
+}
+
+/* Metric Content */
+.metric-content {
+    flex: 1;
+}
+
+.metric-value {
+    font-size: 2.25rem;
+    font-weight: 700;
+    margin: 0 0 0.25rem 0;
+    color: #1e293b;
+}
+
+.metric-label {
+    font-size: 0.875rem;
+    color: #64748b;
+    margin: 0 0 0.25rem 0;
+    font-weight: 600;
+}
+
+.metric-content small {
+    font-size: 0.8125rem;
+    color: #94a3b8;
+}
+
+/* =========================================
+   CHARTS SECTION
+   ========================================= */
+
+.charts-section {
+    margin-bottom: 2rem;
+}
+
+.chart-card {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    margin-bottom: 1.5rem;
+}
+
+.chart-header {
+    margin-bottom: 1.5rem;
+}
+
+.chart-header h3 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #1e293b;
+    margin: 0 0 0.25rem 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.chart-header h3 i {
+    color: #2563eb;
+}
+
+.chart-subtitle {
+    font-size: 0.875rem;
+    color: #64748b;
+    margin: 0;
+}
+
+.chart-body {
+    position: relative;
+    min-height: 300px;
+}
+
+/* =========================================
+   DATA TABLES SECTION
+   ========================================= */
+
+.data-tables-section {
+    margin-bottom: 2rem;
+}
+
+.data-table-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.data-table-card .card-header {
+    background: #f8fafc;
+    border-bottom: 2px solid #e2e8f0;
+    padding: 1rem 1.5rem;
+}
+
+.data-table-card .card-header h3 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #1e293b;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.data-table-card .card-header h3 i {
+    color: #2563eb;
+}
+
+.data-table-card .table {
+    margin: 0;
+}
+
+.data-table-card .table thead {
+    background: #f8fafc;
+}
+
+.data-table-card .table th {
+    font-weight: 600;
+    color: #475569;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 0.875rem 1rem;
+    border: none;
+}
+
+.data-table-card .table td {
+    padding: 0.875rem 1rem;
+    vertical-align: middle;
+    border-color: #f1f5f9;
+}
+
+.data-table-card .table tbody tr {
+    transition: background-color 0.2s ease;
+}
+
+.data-table-card .table tbody tr:hover {
+    background-color: #f8fafc;
+}
+
+/* Rank Badges */
+.rank-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 0.875rem;
+}
+
+.rank-1 {
+    background: linear-gradient(135deg, #ffd700, #ffed4e);
+    color: #92400e;
+}
+
+.rank-2 {
+    background: linear-gradient(135deg, #c0c0c0, #e8e8e8);
+    color: #475569;
+}
+
+.rank-3 {
+    background: linear-gradient(135deg, #cd7f32, #e89c6e);
+    color: #78350f;
+}
+
+.rank-4,
+.rank-5 {
+    background: #f1f5f9;
+    color: #64748b;
+}
+
+/* Status Badges */
+.badge-primary {
+    background: #dbeafe;
+    color: #1e40af;
+    padding: 0.375rem 0.75rem;
+    font-weight: 500;
+}
+
+.badge-info {
+    background: #e0f2fe;
+    color: #075985;
+    padding: 0.375rem 0.75rem;
+    font-weight: 500;
+}
+
+.badge-success {
+    background: #dcfce7;
+    color: #166534;
+    padding: 0.375rem 0.75rem;
+    font-weight: 500;
+}
+
+/* Empty State */
+.empty-state-small {
+    text-align: center;
+    padding: 2rem;
+    color: #94a3b8;
+}
+
+.empty-state-small i {
+    font-size: 2.5rem;
+    color: #cbd5e1;
+    margin-bottom: 0.5rem;
+}
+
+.empty-state-small p {
+    font-size: 0.875rem;
+    margin: 0;
+}
+
+/* =========================================
+   EXPORT INFO CARD
+   ========================================= */
+
+.export-info-card {
+    margin-top: 2rem;
+}
+
+.export-info-card .card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    border: none;
+}
+
+.export-info-card .card-header {
+    background: linear-gradient(135deg, #2563eb, #1e40af);
+    color: white;
+    border: none;
+    padding: 1rem 1.5rem;
+    border-radius: 12px 12px 0 0;
+}
+
+.export-info-card .card-header h4 {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.export-info-card .card-body {
+    padding: 1.5rem;
+}
+
+.export-info-card h5 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #1e293b;
+    margin: 0 0 1rem 0;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.export-info-card h5 i {
+    color: #2563eb;
+}
+
+.export-data-list,
+.export-steps-list {
+    padding-left: 1.25rem;
+}
+
+.export-data-list li,
+.export-steps-list li {
+    margin-bottom: 0.5rem;
+    color: #475569;
+    font-size: 0.9375rem;
+}
+
+.export-data-list li i {
+    margin-right: 0.5rem;
+}
+
+.export-info-card .alert {
+    border-radius: 8px;
+    border: none;
+}
+
+.export-info-card .alert-info {
+    background: rgba(37, 99, 235, 0.1);
+    color: #1e40af;
+}
+
+.export-info-card .alert i {
+    margin-right: 0.5rem;
+}
+
+/* =========================================
+   RESPONSIVE DESIGN
+   ========================================= */
+
+@media (max-width: 1200px) {
+    .metrics-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+
+    .page-header h2 {
+        font-size: 1.5rem;
+    }
+
+    .metrics-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .metric-value {
+        font-size: 1.875rem;
+    }
+
+    .data-tables-section .row {
+        margin: 0;
+    }
+
+    .data-tables-section .col-md-6 {
+        padding: 0;
+        margin-bottom: 1.5rem;
+    }
+
+    .data-table-card .table {
+        font-size: 0.875rem;
+    }
+
+    .export-data-list,
+    .export-steps-list {
+        padding-left: 1rem;
+    }
+}

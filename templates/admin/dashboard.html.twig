@@ -1,0 +1,207 @@
+{% extends 'admin/base.html.twig' %} {% block page_title %}Dashboard Overview{%
+endblock %} {% block admin_stylesheets %}
+<link rel="stylesheet" href="{{ asset('css/admin/dashboard.css') }}" />
+{% endblock %} {% block admin_content %}
+<div class="dashboard-container">
+    {# Statistics Cards #}
+    <div class="stats-grid">
+        {# Total Students Card #}
+        <div class="stat-card stat-students">
+            <div class="stat-icon">
+                <i class="fas fa-user-graduate"></i>
+            </div>
+            <div class="stat-content">
+                <h3 class="stat-value">{{ totalStudents }}</h3>
+                <p class="stat-label">Total Students</p>
+            </div>
+        </div>
+
+        {# Total Companies Card #}
+        <div class="stat-card stat-companies">
+            <div class="stat-icon">
+                <i class="fas fa-building"></i>
+            </div>
+            <div class="stat-content">
+                <h3 class="stat-value">{{ totalCompanies }}</h3>
+                <p class="stat-label">Total Companies</p>
+            </div>
+        </div>
+
+        {# Total Internships Card #}
+        <div class="stat-card stat-internships">
+            <div class="stat-icon">
+                <i class="fas fa-briefcase"></i>
+            </div>
+            <div class="stat-content">
+                <h3 class="stat-value">{{ totalInternships }}</h3>
+                <p class="stat-label">Total Internships</p>
+            </div>
+        </div>
+
+        {# Total Applications Card #}
+        <div class="stat-card stat-applications">
+            <div class="stat-icon">
+                <i class="fas fa-file-alt"></i>
+            </div>
+            <div class="stat-content">
+                <h3 class="stat-value">{{ totalApplications }}</h3>
+                <p class="stat-label">Total Applications</p>
+            </div>
+        </div>
+    </div>
+
+    {# Charts Section #}
+    <div class="charts-grid">
+        {# Pie Chart: Application Status Distribution #}
+        <div class="chart-card">
+            <div class="chart-header">
+                <h3>
+                    <i class="fas fa-chart-pie"></i> Application Status
+                    Distribution
+                </h3>
+                <p class="chart-subtitle">
+                    Overview of all application statuses
+                </p>
+            </div>
+            <div class="chart-body">
+                <canvas id="applicationStatusChart"></canvas>
+            </div>
+        </div>
+
+        {# Bar Chart: Internships by Industry #}
+        <div class="chart-card">
+            <div class="chart-header">
+                <h3>
+                    <i class="fas fa-chart-bar"></i> Internships by Industry
+                </h3>
+                <p class="chart-subtitle">
+                    Number of internship offers per industry
+                </p>
+            </div>
+            <div class="chart-body">
+                <canvas id="internshipsByIndustryChart"></canvas>
+            </div>
+        </div>
+
+        {# Line Chart: Registration Evolution #}
+        <div class="chart-card chart-card-full">
+            <div class="chart-header">
+                <h3>
+                    <i class="fas fa-chart-line"></i> Registration Evolution
+                </h3>
+                <p class="chart-subtitle">
+                    Student and Company registrations over the last 6 months
+                </p>
+            </div>
+            <div class="chart-body">
+                <canvas id="registrationEvolutionChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    {# Recent Activity Section #}
+    <div class="recent-activity">
+        <div class="activity-header">
+            <h3><i class="fas fa-clock"></i> Recent Applications</h3>
+            <a
+                href="{{ path('admin_users') }}"
+                class="btn btn-sm btn-outline-primary"
+                >View All Users</a
+            >
+        </div>
+        <div class="activity-list">
+            {% if recentApplications is empty %}
+            <div class="empty-state">
+                <i class="fas fa-inbox"></i>
+                <p>No recent applications yet</p>
+            </div>
+            {% else %}
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Student</th>
+                        <th>Company</th>
+                        <th>Internship</th>
+                        <th>Match Score</th>
+                        <th>Status</th>
+                        <th>Applied At</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for application in recentApplications %}
+                    <tr>
+                        <td>
+                            <div class="user-info">
+                                <i class="fas fa-user-circle"></i>
+                                <span
+                                    >{{ application.student.firstName }}
+                                    {{ application.student.lastName }}</span
+                                >
+                            </div>
+                        </td>
+                        <td>
+                            <div class="company-info">
+                                <i class="fas fa-building"></i>
+                                <span>{{
+                                    application.internship.company.companyName
+                                }}</span>
+                            </div>
+                        </td>
+                        <td>
+                            {{ application.internship.title|slice(0, 40) }}...
+                        </td>
+                        <td>
+                            <span
+                                class="match-badge {% if application.matchScore >= 80 %}match-excellent {% elseif application.matchScore >= 60 %}match-good {% elseif application.matchScore >= 40 %}match-fair {% else %}match-low{% endif %}"
+                            >
+                                {{ application.matchScore }}%
+                            </span>
+                        </td>
+                        <td>
+                            <span
+                                class="badge {% if application.status == 'accepted' %}badge-success {% elseif application.status == 'rejected' %}badge-danger {% else %}badge-warning{% endif %}"
+                            >
+                                {{ application.status | capitalize }}
+                            </span>
+                        </td>
+                        <td>{{ application.appliedAt|date('M d, Y') }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %} {% block admin_javascripts %} {# Chart.js Library #}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+
+{# Pass data to JavaScript #}
+<script>
+    // Application Status Data for Pie Chart
+    const applicationStatusData = {
+        pending: {{ applicationsByStatus.pending }},
+        accepted: {{ applicationsByStatus.accepted }},
+        rejected: {{ applicationsByStatus.rejected }}
+    };
+
+    // Internships by Industry Data for Bar Chart
+    const internshipsByIndustry = {
+        {% for industry, count in internshipsByIndustry %}
+            "{{ industry }}": {{ count }}{% if not loop.last %},{% endif %}
+        {% endfor %}
+    };
+
+    // Registration Evolution Data for Line Chart
+    const registrationStats = {
+        {% for month, data in registrationStats %}
+            "{{ month }}": {
+                students: {{ data.students }},
+                companies: {{ data.companies }}
+            }{% if not loop.last %},{% endif %}
+        {% endfor %}
+    };
+</script>
+
+<script src="{{ asset('js/admin/dashboard.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,68 @@
+.avatar-circle-large {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+}
+
+.nav-tabs .nav-link {
+    color: #6b7280;
+    border: none;
+    border-bottom: 3px solid transparent;
+    transition: all 0.3s;
+}
+
+.nav-tabs .nav-link:hover {
+    color: var(--primary-color);
+    border-bottom-color: #e5e7eb;
+}
+
+.nav-tabs .nav-link.active {
+    color: var(--primary-color);
+    background-color: transparent;
+    border-bottom-color: var(--primary-color);
+}
+
+.skill-tag {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--primary-color) 0%, #6366f1 100%);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    margin: 0.25rem;
+    font-size: 0.9rem;
+    transition: all 0.3s;
+}
+
+.skill-tag:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.3);
+}
+
+.skill-tag .skill-remove {
+    background: none;
+    border: none;
+    color: white;
+    margin-left: 0.5rem;
+    cursor: pointer;
+    opacity: 0.8;
+    transition: opacity 0.2s;
+}
+
+.skill-tag .skill-remove:hover {
+    opacity: 1;
+}
+
+.form-label {
+    font-weight: 600;
+    color: #374151;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(79, 70, 229, 0.25);
+}

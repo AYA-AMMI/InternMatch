@@ -1,0 +1,93 @@
+.nav-tabs .nav-link {
+    color: #6b7280;
+    font-weight: 500;
+    border: none;
+    border-bottom: 3px solid transparent;
+    transition: all 0.3s;
+}
+.nav-tabs .nav-link:hover {
+    color: var(--primary-color);
+    border-bottom-color: #e5e7eb;
+}
+
+.nav-tabs .nav-link.active {
+    color: var(--primary-color);
+    background-color: transparent;
+    border-bottom-color: var(--primary-color);
+}
+
+.avatar-circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    flex-shrink: 0;
+}
+
+.avatar-circle-large {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+}
+
+.status-badge {
+    padding: 0.5rem 1rem;
+    font-weight: 600;
+    font-size: 0.75rem;
+}
+
+.status-pending {
+    background-color: #fef3c7;
+    color: #92400e;
+}
+
+.status-accepted {
+    background-color: #d1fae5;
+    color: #065f46;
+}
+
+.status-rejected {
+    background-color: #fee2e2;
+    color: #991b1b;
+}
+
+.match-badge {
+    font-size: 0.75rem;
+    padding: 0.35rem 0.65rem;
+    font-weight: 600;
+}
+
+.match-excellent {
+    background-color: #10b981;
+    color: white;
+}
+
+.match-good {
+    background-color: #3b82f6;
+    color: white;
+}
+
+.match-fair {
+    background-color: #f59e0b;
+    color: white;
+}
+
+.match-low {
+    background-color: #6b7280;
+    color: white;
+}
+
+.table tbody tr {
+    transition: background-color 0.2s;
+}
+
+.table tbody tr:hover {
+    background-color: #f9fafb;
+}

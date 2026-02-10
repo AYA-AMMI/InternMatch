@@ -1,0 +1,30 @@
+.login-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-card {
+    max-width: 500px;
+    width: 100%;
+}
+
+.welcome-section {
+    background: linear-gradient(135deg, var(--primary-color) 0%, #6366F1 100%);
+    color: white;
+    padding: 3rem;
+    border-radius: 1rem;
+}
+
+.role-tabs .nav-link {
+    color: #6B7280;
+    border: none;
+    border-bottom: 3px solid transparent;
+}
+
+.role-tabs .nav-link.active {
+    color: var(--primary-color);
+    border-bottom-color: var(--primary-color);
+    font-weight: 600;
+}

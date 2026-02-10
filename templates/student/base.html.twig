@@ -1,0 +1,140 @@
+{% extends 'base.html.twig' %} {% block body %}
+<div class="d-flex" id="wrapper">
+    {# Sidebar #}
+    <div class="bg-dark text-white" id="sidebar-wrapper">
+        <div
+            class="sidebar-heading text-center py-4 border-bottom border-secondary"
+        >
+            <h4 class="mb-0">
+                <i class="fas fa-graduation-cap me-2"></i>
+                InternMatch
+            </h4>
+            <small class="text-muted">Student Portal</small>
+        </div>
+        <div class="list-group list-group-flush">
+            <a
+                href="{{ path('student_dashboard') }}"
+                class="list-group-item list-group-item-action bg-dark text-white border-secondary {{
+                    app.request.get('_route') == 'student_dashboard'
+                        ? 'active'
+                        : ''
+                }}"
+            >
+                <i class="fas fa-home me-2"></i> Dashboard
+            </a>
+            <a
+                href="{{ path('student_internships') }}"
+                class="list-group-item list-group-item-action bg-dark text-white border-secondary {{ app.request.get('_route') starts with 'student_internship' ? 'active' : '' }}"
+            >
+                <i class="fas fa-briefcase me-2"></i> Browse Internships
+            </a>
+            <a
+                href="{{ path('student_applications') }}"
+                class="list-group-item list-group-item-action bg-dark text-white border-secondary {{
+                    app.request.get('_route') == 'student_applications'
+                        ? 'active'
+                        : ''
+                }}"
+            >
+                <i class="fas fa-file-alt me-2"></i> My Applications
+            </a>
+            <a
+                href="{{ path('student_profile') }}"
+                class="list-group-item list-group-item-action bg-dark text-white border-secondary {{ app.request.get('_route') starts with 'student_profile' ? 'active' : '' }}"
+            >
+                <i class="fas fa-user me-2"></i> My Profile
+            </a>
+            <a
+                href="{{ path('app_logout') }}"
+                class="list-group-item list-group-item-action bg-dark text-white border-secondary"
+            >
+                <i class="fas fa-sign-out-alt me-2"></i> Logout
+            </a>
+        </div>
+    </div>
+
+    {# Page Content #}
+    <div id="page-content-wrapper" class="w-100">
+        {# Top Navigation #}
+        <nav
+            class="navbar navbar-expand-lg navbar-light bg-white border-bottom shadow-sm"
+        >
+            <div class="container-fluid">
+                <button class="btn btn-outline-secondary" id="sidebarToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+
+                <div class="ms-auto d-flex align-items-center">
+                    <div class="dropdown">
+                        <button
+                            class="btn btn-link text-decoration-none dropdown-toggle d-flex align-items-center"
+                            type="button"
+                            id="userDropdown"
+                            data-bs-toggle="dropdown"
+                        >
+                            <div
+                                class="avatar-circle bg-primary text-white me-2"
+                            >
+                                {{ app.user.firstName | first
+                                }}{{ app.user.lastName | first }}
+                            </div>
+                            <span class="text-dark"
+                                >{{ app.user.firstName }}
+                                {{ app.user.lastName }}</span
+                            >
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li>
+                                <a
+                                    class="dropdown-item"
+                                    href="{{ path('student_profile') }}"
+                                >
+                                    <i class="fas fa-user me-2"></i> My Profile
+                                </a>
+                            </li>
+                            <li><hr class="dropdown-divider" /></li>
+                            <li>
+                                <a
+                                    class="dropdown-item"
+                                    href="{{ path('app_logout') }}"
+                                >
+                                    <i class="fas fa-sign-out-alt me-2"></i>
+                                    Logout
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        {# Flash Messages #}
+        <div class="container-fluid mt-3">
+            {% for label, messages in app.flashes %} {% for message in messages
+            %}
+            <div
+                class="alert alert-{{
+                    label == 'error' ? 'danger' : label
+                }} alert-dismissible fade show"
+                role="alert"
+            >
+                {{ message }}
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="alert"
+                ></button>
+            </div>
+            {% endfor %} {% endfor %}
+        </div>
+
+        {# Main Content #} {% block student_content %}{% endblock %}
+    </div>
+</div>
+{% endblock %} {% block stylesheets %}
+{{ parent() }}
+<link rel="stylesheet" href="{{ asset('css/student/base.css') }}" />
+{% endblock %} {% block javascripts %}
+{{ parent() }}
+<script src="{{ asset('js/student/base.js') }}"></script>
+{% endblock %}

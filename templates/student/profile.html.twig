@@ -1,0 +1,424 @@
+{% extends 'student/base.html.twig' %}
+
+{% block title %}My Profile - InternMatch{% endblock %}
+
+{% block student_content %}
+<div class="container-fluid py-4">
+    <div class="row mb-4">
+        <div class="col">
+            <h1 class="h3 mb-0">My Profile</h1>
+            <p class="text-muted">Manage your personal information and preferences</p>
+        </div>
+    </div>
+
+    <div class="row">
+        {# Profile Summary Card #}
+        <div class="col-lg-4 mb-4">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body text-center p-4">
+                    {# Avatar #}
+                    <div class="avatar-circle-large bg-primary text-white mx-auto mb-3">
+                        <span class="display-4">{{ student.firstName|first }}{{ student.lastName|first }}</span>
+                    </div>
+                    
+                    <h4 class="mb-1">{{ student.firstName }} {{ student.lastName }}</h4>
+                    <p class="text-muted mb-3">{{ student.email }}</p>
+                    
+                    <div class="d-grid gap-2">
+                        <span class="badge bg-primary p-2">
+                            <i class="fas fa-user-graduate me-2"></i>
+                            Student Account
+                        </span>
+                    </div>
+
+                    <hr class="my-4">
+
+                    {# Quick Stats #}
+                    <div class="row text-center">
+                        <div class="col-6 border-end">
+                            <h5 class="mb-0 text-primary">{{ student.applications|length }}</h5>
+                            <small class="text-muted">Applications</small>
+                        </div>
+                        <div class="col-6">
+                            <h5 class="mb-0 text-success">{{ student.skills ? student.skills|length : 0 }}</h5>
+                            <small class="text-muted">Skills</small>
+                        </div>
+                    </div>
+
+                    <hr class="my-4">
+
+                    {# Account Info #}
+                    <div class="text-start">
+                        <small class="text-muted d-block mb-2">
+                            <i class="fas fa-calendar-alt me-2"></i>
+                            <strong>Member since:</strong> {{ student.createdAt|date('M d, Y') }}
+                        </small>
+                        <small class="text-muted d-block">
+                            <i class="fas fa-clock me-2"></i>
+                            <strong>Last updated:</strong> {{ student.createdAt|date('M d, Y') }}
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {# Profile Edit Form #}
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-white border-bottom py-3">
+                    <ul class="nav nav-tabs card-header-tabs" id="profileTabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="personal-tab" data-bs-toggle="tab" data-bs-target="#personal" type="button" role="tab">
+                                <i class="fas fa-user me-2"></i>
+                                Personal Info
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="preferences-tab" data-bs-toggle="tab" data-bs-target="#preferences" type="button" role="tab">
+                                <i class="fas fa-cog me-2"></i>
+                                Preferences
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="card-body p-4">
+                    <form method="post" action="{{ path('student_profile_update') }}" id="profileForm">
+                        <div class="tab-content" id="profileTabsContent">
+                            {# Personal Information Tab #}
+                            <div class="tab-pane fade show active" id="personal" role="tabpanel">
+                                <h5 class="mb-4">Personal Information</h5>
+
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="firstName" class="form-label">
+                                            First Name <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" 
+                                               class="form-control" 
+                                               id="firstName" 
+                                               name="firstName" 
+                                               value="{{ student.firstName }}" 
+                                               required>
+                                    </div>
+
+                                    <div class="col-md-6 mb-3">
+                                        <label for="lastName" class="form-label">
+                                            Last Name <span class="text-danger">*</span>
+                                        </label>
+                                        <input type="text" 
+                                               class="form-control" 
+                                               id="lastName" 
+                                               name="lastName" 
+                                               value="{{ student.lastName }}" 
+                                               required>
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="email" class="form-label">
+                                        Email Address
+                                    </label>
+                                    <input type="email" 
+                                           class="form-control" 
+                                           id="email" 
+                                           value="{{ student.email }}" 
+                                           disabled>
+                                    <small class="text-muted">Email cannot be changed</small>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="phone" class="form-label">
+                                        Phone Number
+                                    </label>
+                                    <input type="tel" 
+                                           class="form-control" 
+                                           id="phone" 
+                                           name="phone" 
+                                           value="{{ student.phone }}"
+                                           placeholder="+1 (555) 123-4567">
+                                </div>
+
+                                <div class="mb-4">
+                                    <label for="bio" class="form-label">
+                                        Bio
+                                    </label>
+                                    <textarea class="form-control" 
+                                              id="bio" 
+                                              name="bio" 
+                                              rows="4"
+                                              placeholder="Tell us about yourself, your interests, and career goals...">{{ student.bio }}</textarea>
+                                    <small class="text-muted">
+                                        {{ student.bio ? student.bio|length : 0 }}/500 characters
+                                    </small>
+                                </div>
+
+                                {# Skills Section #}
+                                <div class="mb-4">
+                                    <label class="form-label">
+                                        Skills <span class="text-danger">*</span>
+                                    </label>
+                                    <div class="input-group mb-2">
+                                        <input type="text" 
+                                               class="form-control" 
+                                               id="skillInput" 
+                                               placeholder="Add a skill (e.g., JavaScript, Python, React...)">
+                                        <button class="btn btn-outline-primary" type="button" id="addSkillBtn">
+                                            <i class="fas fa-plus me-2"></i>
+                                            Add
+                                        </button>
+                                    </div>
+                                    
+                                    <div id="skillsContainer" class="mb-2">
+                                        {% for skill in student.skills %}
+                                            <span class="skill-tag">
+                                                {{ skill }}
+                                                <button type="button" class="skill-remove" data-skill="{{ skill }}">
+                                                    <i class="fas fa-times"></i>
+                                                </button>
+                                            </span>
+                                        {% endfor %}
+                                    </div>
+                                    
+                                    <div id="hiddenSkills"></div>
+                                    
+                                    <small class="text-muted">
+                                        <i class="fas fa-info-circle me-1"></i>
+                                        Add skills that match internship requirements to improve your match score
+                                    </small>
+                                </div>
+                            </div>
+
+                            {# Preferences Tab #}
+                            <div class="tab-pane fade" id="preferences" role="tabpanel">
+                                <h5 class="mb-4">Internship Preferences</h5>
+
+                                <div class="mb-3">
+                                    <label for="expectedLocation" class="form-label">
+                                        Expected Location
+                                    </label>
+                                    <input type="text" 
+                                           class="form-control" 
+                                           id="expectedLocation" 
+                                           name="expectedLocation" 
+                                           value="{{ student.expectedLocation }}"
+                                           placeholder="e.g., Paris, New York, Remote">
+                                    <small class="text-muted">
+                                        This helps us match you with relevant opportunities
+                                    </small>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="expectedDuration" class="form-label">
+                                        Expected Duration (months)
+                                    </label>
+                                    <select class="form-select" id="expectedDuration" name="expectedDuration">
+                                        <option value="1" {{ student.expectedDuration == 1 ? 'selected' : '' }}>1 month</option>
+                                        <option value="2" {{ student.expectedDuration == 2 ? 'selected' : '' }}>2 months</option>
+                                        <option value="3" {{ student.expectedDuration == 3 ? 'selected' : '' }}>3 months</option>
+                                        <option value="4" {{ student.expectedDuration == 4 ? 'selected' : '' }}>4 months</option>
+                                        <option value="5" {{ student.expectedDuration == 5 ? 'selected' : '' }}>5 months</option>
+                                        <option value="6" {{ student.expectedDuration == 6 ? 'selected' : '' }}>6 months</option>
+                                        <option value="9" {{ student.expectedDuration == 9 ? 'selected' : '' }}>9 months</option>
+                                        <option value="12" {{ student.expectedDuration == 12 ? 'selected' : '' }}>12 months</option>
+                                    </select>
+                                </div>
+
+                                <div class="mb-4">
+                                    <label for="cvPath" class="form-label">
+                                        CV/Resume Link (Optional)
+                                    </label>
+                                    <input type="text" 
+                                           class="form-control" 
+                                           id="cvPath" 
+                                           name="cvPath" 
+                                           value="{{ student.cvPath }}"
+                                           placeholder="https://drive.google.com/...">
+                                    <small class="text-muted">
+                                        Provide a link to your CV (Google Drive, Dropbox, etc.)
+                                    </small>
+                                </div>
+
+                                {# Profile Completion #}
+                                <div class="alert alert-info">
+                                    <h6 class="alert-heading">
+                                        <i class="fas fa-chart-line me-2"></i>
+                                        Profile Completion
+                                    </h6>
+                                    {% set completion = 0 %}
+                                    {% if student.firstName and student.lastName %}{% set completion = completion + 20 %}{% endif %}
+                                    {% if student.bio %}{% set completion = completion + 20 %}{% endif %}
+                                    {% if student.skills|length > 0 %}{% set completion = completion + 30 %}{% endif %}
+                                    {% if student.expectedLocation %}{% set completion = completion + 15 %}{% endif %}
+                                    {% if student.expectedDuration %}{% set completion = completion + 15 %}{% endif %}
+
+                                    <div class="progress mb-2" style="height: 20px;">
+                                        <div class="progress-bar bg-success" 
+                                             role="progressbar" 
+                                             style="width: {{ completion }}%"
+                                             aria-valuenow="{{ completion }}" 
+                                             aria-valuemin="0" 
+                                             aria-valuemax="100">
+                                            {{ completion }}%
+                                        </div>
+                                    </div>
+                                    <small>
+                                        {% if completion == 100 %}
+                                            <i class="fas fa-check-circle text-success me-1"></i>
+                                            Your profile is complete! Great job!
+                                        {% else %}
+                                            Complete your profile to improve your match scores with internships.
+                                        {% endif %}
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+
+                        {# Action Buttons #}
+                        <div class="d-flex justify-content-between align-items-center mt-4 pt-4 border-top">
+                            <a href="{{ path('student_dashboard') }}" class="btn btn-outline-secondary">
+                                <i class="fas fa-arrow-left me-2"></i>
+                                Cancel
+                            </a>
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="fas fa-save me-2"></i>
+                                Save Changes
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/student/profile.css') }}" />
+{% endblock %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Skills management
+            const skills = {{ student.skills|json_encode|raw }};
+            const skillInput = document.getElementById('skillInput');
+            const addSkillBtn = document.getElementById('addSkillBtn');
+            const skillsContainer = document.getElementById('skillsContainer');
+            const hiddenSkillsContainer = document.getElementById('hiddenSkills');
+            const form = document.getElementById('profileForm');
+
+            function updateSkillsDisplay() {
+                // Update visible tags
+                skillsContainer.innerHTML = skills.map(skill => `
+                    <span class="skill-tag">
+                        ${skill}
+                        <button type="button" class="skill-remove" data-skill="${skill}">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </span>
+                `).join('');
+
+                // Update hidden inputs for form submission
+                hiddenSkillsContainer.innerHTML = skills.map(skill => `
+                    <input type="hidden" name="skills[]" value="${skill}">
+                `).join('');
+
+                // Reattach event listeners to remove buttons
+                document.querySelectorAll('.skill-remove').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const skill = this.dataset.skill;
+                        removeSkill(skill);
+                    });
+                });
+            }
+
+            function addSkill() {
+                const skill = skillInput.value.trim();
+                if (skill && !skills.includes(skill)) {
+                    skills.push(skill);
+                    updateSkillsDisplay();
+                    skillInput.value = '';
+                    skillInput.focus();
+                } else if (skills.includes(skill)) {
+                    alert('This skill is already added!');
+                }
+            }
+
+            function removeSkill(skill) {
+                const index = skills.indexOf(skill);
+                if (index > -1) {
+                    skills.splice(index, 1);
+                    updateSkillsDisplay();
+                }
+            }
+
+            // Add skill on button click
+            addSkillBtn.addEventListener('click', addSkill);
+
+            // Add skill on Enter key
+            skillInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    addSkill();
+                }
+            });
+
+            // Initialize display
+            updateSkillsDisplay();
+
+            // Bio character counter
+            const bioTextarea = document.getElementById('bio');
+            const charCount = bioTextarea?.nextElementSibling;
+
+            bioTextarea?.addEventListener('input', function() {
+                const length = this.value.length;
+                if (charCount) {
+                    charCount.textContent = `${length}/500 characters`;
+                }
+                
+                if (length > 500) {
+                    this.value = this.value.substring(0, 500);
+                }
+            });
+
+            // Form validation
+            form.addEventListener('submit', function(e) {
+                // Make sure skills are updated
+                updateSkillsDisplay();
+                
+                if (skills.length === 0) {
+                    e.preventDefault();
+                    alert('Please add at least one skill to your profile.');
+                    document.getElementById('personal-tab').click();
+                    skillInput.focus();
+                    return false;
+                }
+            });
+
+            // Unsaved changes warning
+            let formChanged = false;
+            const formInputs = form.querySelectorAll('input:not([type="hidden"]), textarea, select');
+            
+            formInputs.forEach(input => {
+                input.addEventListener('change', function() {
+                    formChanged = true;
+                });
+            });
+
+            window.addEventListener('beforeunload', function(e) {
+                if (formChanged) {
+                    e.preventDefault();
+                    e.returnValue = '';
+                }
+            });
+
+            form.addEventListener('submit', function() {
+                formChanged = false;
+            });
+        });
+    </script>
+{% endblock %}

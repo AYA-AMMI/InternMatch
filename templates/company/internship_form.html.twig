@@ -1,0 +1,271 @@
+{% extends 'company/base.html.twig' %}
+
+{% block title %}{{ internship ? 'Edit' : 'Create' }} Internship - InternMatch{% endblock %}
+
+{% block company_content %}
+<div class="container-fluid py-4">
+    <div class="row mb-4">
+        <div class="col">
+            <h1 class="h3 mb-0">{{ internship ? 'Edit' : 'Create New' }} Internship</h1>
+            <p class="text-muted">{{ internship ? 'Update your internship details' : 'Post a new internship opportunity' }}</p>
+        </div>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body p-4">
+                    <form method="post" id="internshipForm">
+                        {# Title #}
+                        <div class="mb-4">
+                            <label for="title" class="form-label fw-semibold">
+                                Internship Title <span class="text-danger">*</span>
+                            </label>
+                            <input type="text" 
+                                   class="form-control form-control-lg" 
+                                   id="title" 
+                                   name="title" 
+                                   value="{{ internship ? internship.title : '' }}"
+                                   placeholder="e.g., Full-Stack Web Developer Intern"
+                                   required>
+                            <small class="text-muted">Choose a clear, descriptive title for the position</small>
+                        </div>
+
+                        {# Description #}
+                        <div class="mb-4">
+                            <label for="description" class="form-label fw-semibold">
+                                Description <span class="text-danger">*</span>
+                            </label>
+                            <textarea class="form-control" 
+                                      id="description" 
+                                      name="description" 
+                                      rows="6"
+                                      placeholder="Describe the internship role, responsibilities, and what the student will learn..."
+                                      required>{{ internship ? internship.description : '' }}</textarea>
+                            <small class="text-muted">Provide a detailed description of the internship</small>
+                        </div>
+
+                        {# Required Skills #}
+                        <div class="mb-4">
+                            <label class="form-label fw-semibold">
+                                Required Skills <span class="text-danger">*</span>
+                            </label>
+                            <div class="input-group mb-2">
+                                <input type="text" 
+                                       class="form-control" 
+                                       id="skillInput" 
+                                       placeholder="Add a required skill (e.g., JavaScript, Python, React...)">
+                                <button class="btn btn-outline-primary" type="button" id="addSkillBtn">
+                                    <i class="fas fa-plus me-2"></i>
+                                    Add
+                                </button>
+                            </div>
+                            
+                            <div id="skillsContainer" class="mb-2">
+                                {% if internship and internship.requiredSkills %}
+                                    {% for skill in internship.requiredSkills %}
+                                        <span class="skill-tag">
+                                            {{ skill }}
+                                            <button type="button" class="skill-remove" data-skill="{{ skill }}">
+                                                <i class="fas fa-times"></i>
+                                            </button>
+                                        </span>
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+                            
+                            <input type="hidden" name="requiredSkills" id="requiredSkillsData">
+                            
+                            <small class="text-muted">
+                                <i class="fas fa-info-circle me-1"></i>
+                                Add technical skills and competencies required for this position
+                            </small>
+                        </div>
+
+                        <div class="row">
+                            {# Location #}
+                            <div class="col-md-6 mb-4">
+                                <label for="location" class="form-label fw-semibold">
+                                    Location <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" 
+                                       class="form-control" 
+                                       id="location" 
+                                       name="location" 
+                                       value="{{ internship ? internship.location : '' }}"
+                                       placeholder="e.g., Oujda, Morocco or Remote"
+                                       required>
+                            </div>
+
+                            {# Duration #}
+                            <div class="col-md-6 mb-4">
+                                <label for="duration" class="form-label fw-semibold">
+                                    Duration (months) <span class="text-danger">*</span>
+                                </label>
+                                <select class="form-select" id="duration" name="duration" required>
+                                    <option value="">Select duration...</option>
+                                    {% for i in 1..12 %}
+                                        <option value="{{ i }}" {{ internship and internship.duration == i ? 'selected' : '' }}>
+                                            {{ i }} month{{ i > 1 ? 's' : '' }}
+                                        </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            {# Salary #}
+                            <div class="col-md-6 mb-4">
+                                <label for="salary" class="form-label fw-semibold">
+                                    Salary (Optional)
+                                </label>
+                                <div class="input-group">
+                                    <span class="input-group-text">DH</span>
+                                    <input type="number" 
+                                           class="form-control" 
+                                           id="salary" 
+                                           name="salary" 
+                                           value="{{ internship ? internship.salary : '' }}"
+                                           placeholder="0.00"
+                                           step="0.01"
+                                           min="0">
+                                </div>
+                                <small class="text-muted">Monthly compensation (if applicable)</small>
+                            </div>
+
+                            {# Deadline #}
+                            <div class="col-md-6 mb-4">
+                                <label for="deadline" class="form-label fw-semibold">
+                                    Application Deadline (Optional)
+                                </label>
+                                <input type="date" 
+                                       class="form-control" 
+                                       id="deadline" 
+                                       name="deadline" 
+                                       value="{{ internship and internship.deadline ? internship.deadline|date('Y-m-d') : '' }}"
+                                       min="{{ 'now'|date('Y-m-d') }}">
+                            </div>
+                        </div>
+
+                        {% if internship %}
+                            {# Status (only for edit) #}
+                            <div class="mb-4">
+                                <label for="status" class="form-label fw-semibold">
+                                    Status <span class="text-danger">*</span>
+                                </label>
+                                <select class="form-select" id="status" name="status" required>
+                                    <option value="active" {{ internship.status == 'active' ? 'selected' : '' }}>Active</option>
+                                    <option value="closed" {{ internship.status == 'closed' ? 'selected' : '' }}>Closed</option>
+                                </select>
+                                <small class="text-muted">Active internships are visible to students</small>
+                            </div>
+                        {% endif %}
+
+                        {# Action Buttons #}
+                        <div class="d-flex justify-content-between align-items-center pt-4 border-top">
+                            <a href="{{ path('company_internships') }}" class="btn btn-outline-secondary">
+                                <i class="fas fa-arrow-left me-2"></i>
+                                Cancel
+                            </a>
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="fas fa-save me-2"></i>
+                                {{ internship ? 'Update' : 'Create' }} Internship
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+<link rel="stylesheet" href="{{ asset('css/company/internship_form.css') }}" />
+{% endblock %}  
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Skills management
+            const skills = {{ internship and internship.requiredSkills ? internship.requiredSkills|json_encode|raw : '[]' }};
+            const skillInput = document.getElementById('skillInput');
+            const addSkillBtn = document.getElementById('addSkillBtn');
+            const skillsContainer = document.getElementById('skillsContainer');
+            const requiredSkillsData = document.getElementById('requiredSkillsData');
+            const form = document.getElementById('internshipForm');
+
+            function updateSkillsDisplay() {
+                // Update visible tags
+                skillsContainer.innerHTML = skills.map(skill => `
+                    <span class="skill-tag">
+                        ${skill}
+                        <button type="button" class="skill-remove" data-skill="${skill}">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </span>
+                `).join('');
+
+                // Update hidden input with JSON
+                requiredSkillsData.value = JSON.stringify(skills);
+
+                // Reattach event listeners to remove buttons
+                document.querySelectorAll('.skill-remove').forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const skill = this.dataset.skill;
+                        removeSkill(skill);
+                    });
+                });
+            }
+
+            function addSkill() {
+                const skill = skillInput.value.trim();
+                if (skill && !skills.includes(skill)) {
+                    skills.push(skill);
+                    updateSkillsDisplay();
+                    skillInput.value = '';
+                    skillInput.focus();
+                } else if (skills.includes(skill)) {
+                    alert('This skill is already added!');
+                }
+            }
+
+            function removeSkill(skill) {
+                const index = skills.indexOf(skill);
+                if (index > -1) {
+                    skills.splice(index, 1);
+                    updateSkillsDisplay();
+                }
+            }
+
+            // Add skill on button click
+            addSkillBtn.addEventListener('click', addSkill);
+
+            // Add skill on Enter key
+            skillInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    addSkill();
+                }
+            });
+
+            // Initialize display
+            updateSkillsDisplay();
+
+            // IMPORTANT: Update skills before form submission
+            form.addEventListener('submit', function(e) {
+                // Make sure the hidden input has the latest skills
+                requiredSkillsData.value = JSON.stringify(skills);
+                
+                // Validate that at least one skill is added
+                if (skills.length === 0) {
+                    e.preventDefault();
+                    alert('Please add at least one required skill for this internship.');
+                    skillInput.focus();
+                    return false;
+                }
+            });
+        });
+    </script>
+{% endblock %}

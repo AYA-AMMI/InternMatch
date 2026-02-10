@@ -1,0 +1,295 @@
+/* =========================================
+   ADMIN BASE STYLES
+   Sidebar layout with responsive design
+   ========================================= */
+
+:root {
+    --admin-sidebar-width: 260px;
+    --admin-primary: #2563eb;
+    --admin-primary-dark: #1e40af;
+    --admin-sidebar-bg: #1e293b;
+    --admin-sidebar-hover: #334155;
+    --admin-topbar-height: 70px;
+    --admin-text-light: #f8fafc;
+    --admin-text-dark: #1e293b;
+    --admin-border: #e2e8f0;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Inter", sans-serif;
+    background-color: #f8fafc;
+    color: var(--admin-text-dark);
+}
+
+/* =========================================
+   ADMIN WRAPPER & LAYOUT
+   ========================================= */
+
+.admin-wrapper {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* =========================================
+   SIDEBAR
+   ========================================= */
+
+.admin-sidebar {
+    width: var(--admin-sidebar-width);
+    background: var(--admin-sidebar-bg);
+    color: var(--admin-text-light);
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease;
+}
+
+.sidebar-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.sidebar-header i {
+    font-size: 1.75rem;
+    color: var(--admin-primary);
+}
+
+.sidebar-header h4 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0;
+}
+
+/* Sidebar Navigation */
+.sidebar-nav {
+    flex: 1;
+    padding: 1rem 0;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.875rem 1.5rem;
+    color: #cbd5e1;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    border-left: 3px solid transparent;
+}
+
+.nav-item:hover {
+    background: var(--admin-sidebar-hover);
+    color: var(--admin-text-light);
+}
+
+.nav-item.active {
+    background: var(--admin-sidebar-hover);
+    color: var(--admin-text-light);
+    border-left-color: var(--admin-primary);
+}
+
+.nav-item i {
+    width: 20px;
+    font-size: 1.125rem;
+}
+
+.nav-divider {
+    height: 1px;
+    background: rgba(255, 255, 255, 0.1);
+    margin: 1rem 1.5rem;
+}
+
+.nav-logout {
+    color: #f87171;
+}
+
+.nav-logout:hover {
+    background: rgba(248, 113, 113, 0.1);
+    color: #ef4444;
+}
+
+/* Sidebar Footer */
+.sidebar-footer {
+    padding: 1rem 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.admin-info {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.admin-info i {
+    font-size: 2rem;
+    color: var(--admin-primary);
+}
+
+.admin-email {
+    font-size: 0.875rem;
+    font-weight: 500;
+    margin: 0;
+    color: var(--admin-text-light);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.admin-role {
+    font-size: 0.75rem;
+    color: #94a3b8;
+    margin: 0;
+}
+
+/* =========================================
+   MAIN CONTENT AREA
+   ========================================= */
+
+.admin-content {
+    flex: 1;
+    margin-left: var(--admin-sidebar-width);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Top Bar */
+.admin-topbar {
+    height: var(--admin-topbar-height);
+    background: white;
+    border-bottom: 1px solid var(--admin-border);
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.topbar-left {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.sidebar-toggle {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: var(--admin-text-dark);
+    cursor: pointer;
+    padding: 0.5rem;
+}
+
+.sidebar-toggle:hover {
+    color: var(--admin-primary);
+}
+
+.page-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 0;
+    color: var(--admin-text-dark);
+}
+
+.topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.topbar-info {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #64748b;
+    font-size: 0.875rem;
+}
+
+.topbar-info i {
+    color: var(--admin-primary);
+}
+
+/* Main Content */
+.admin-main {
+    flex: 1;
+    padding: 2rem;
+}
+
+/* =========================================
+   RESPONSIVE DESIGN
+   ========================================= */
+
+@media (max-width: 992px) {
+    .admin-sidebar {
+        transform: translateX(-100%);
+    }
+
+    .admin-sidebar.show {
+        transform: translateX(0);
+    }
+
+    .admin-content {
+        margin-left: 0;
+    }
+
+    .sidebar-toggle {
+        display: block;
+    }
+}
+
+@media (max-width: 768px) {
+    .admin-topbar {
+        padding: 0 1rem;
+    }
+
+    .page-title {
+        font-size: 1.25rem;
+    }
+
+    .admin-main {
+        padding: 1rem;
+    }
+
+    .topbar-info {
+        display: none;
+    }
+}
+
+/* =========================================
+   UTILITY CLASSES
+   ========================================= */
+
+.empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+    color: #94a3b8;
+}
+
+.empty-state i {
+    font-size: 4rem;
+    color: #cbd5e1;
+    margin-bottom: 1rem;
+}
+
+.empty-state p {
+    font-size: 1.125rem;
+    margin: 0;
+}

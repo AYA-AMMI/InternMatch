@@ -1,0 +1,47 @@
+.stats-card {
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.stats-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+}
+
+.stat-icon {
+    flex-shrink: 0;
+}
+
+.internship-card {
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.internship-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.15) !important;
+}
+
+.match-badge {
+    font-size: 0.9rem;
+    padding: 0.5rem 1rem;
+    font-weight: 600;
+}
+
+.match-excellent {
+    background-color: #10B981;
+    color: white;
+}
+
+.match-good {
+    background-color: #3B82F6;
+    color: white;
+}
+
+.match-fair {
+    background-color: #F59E0B;
+    color: white;
+}
+
+.match-low {
+    background-color: #6B7280;
+    color: white;
+}

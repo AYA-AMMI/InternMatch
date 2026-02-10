@@ -1,0 +1,242 @@
+{% extends 'student/base.html.twig' %}
+
+{% block title %}Student Dashboard{% endblock %}
+
+{% block student_content %}
+<div class="container-fluid py-4">
+    <div class="row mb-4">
+        <div class="col">
+            <h1 class="h3 mb-0">Student Dashboard</h1>
+            <p class="text-muted">Welcome back, {{ app.user.firstName }}!</p>
+        </div>
+    </div>
+
+    {# Statistics Cards #}
+    <div class="row g-4 mb-5">
+        <div class="col-md-6 col-xl-3">
+            <div class="card stats-card border-0 shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="stat-icon bg-primary bg-opacity-10 text-primary rounded-3 p-3 me-3">
+                            <i class="fas fa-file-alt fa-2x"></i>
+                        </div>
+                        <div>
+                            <h6 class="text-muted mb-1">My Applications</h6>
+                            <h2 class="mb-0">{{ totalApplications }}</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-xl-3">
+            <div class="card stats-card border-0 shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="stat-icon bg-warning bg-opacity-10 text-warning rounded-3 p-3 me-3">
+                            <i class="fas fa-clock fa-2x"></i>
+                        </div>
+                        <div>
+                            <h6 class="text-muted mb-1">Pending</h6>
+                            <h2 class="mb-0">{{ pendingApplications }}</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-xl-3">
+            <div class="card stats-card border-0 shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="stat-icon bg-success bg-opacity-10 text-success rounded-3 p-3 me-3">
+                            <i class="fas fa-check-circle fa-2x"></i>
+                        </div>
+                        <div>
+                            <h6 class="text-muted mb-1">Accepted</h6>
+                            <h2 class="mb-0">{{ acceptedApplications }}</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6 col-xl-3">
+            <div class="card stats-card border-0 shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="stat-icon bg-danger bg-opacity-10 text-danger rounded-3 p-3 me-3">
+                            <i class="fas fa-times-circle fa-2x"></i>
+                        </div>
+                        <div>
+                            <h6 class="text-muted mb-1">Rejected</h6>
+                            <h2 class="mb-0">{{ rejectedApplications }}</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {# Top Matches Section #}
+    <div class="mb-5">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4 class="mb-0">
+                <i class="fas fa-star text-warning me-2"></i>
+                Top Matches For You
+            </h4>
+            <a href="{{ path('student_internships') }}" class="btn btn-outline-primary">
+                View All Internships
+            </a>
+        </div>
+
+        {% if topMatches is empty %}
+            <div class="alert alert-info">
+                <i class="fas fa-info-circle me-2"></i>
+                No internships available at the moment. Check back later!
+            </div>
+        {% else %}
+            <div class="row g-4">
+                {% for match in topMatches %}
+                    {% set internship = match.internship %}
+                    {% set score = match.score %}
+                    
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card internship-card border-0 shadow-sm h-100">
+                            <div class="card-body">
+                                {# Match Score Badge #}
+                                <div class="d-flex justify-content-between align-items-start mb-3">
+                                    <span class="badge match-badge match-{{ score >= 90 ? 'excellent' : (score >= 75 ? 'good' : (score >= 60 ? 'fair' : 'low')) }}">
+                                        {{ score }}% Match
+                                    </span>
+                                    <span class="badge bg-primary">{{ internship.company.industry }}</span>
+                                </div>
+
+                                {# Internship Info #}
+                                <h5 class="card-title mb-2">{{ internship.title }}</h5>
+                                <p class="text-muted mb-3">
+                                    <i class="fas fa-building me-1"></i>
+                                    {{ internship.company.companyName }}
+                                </p>
+
+                                {# Details #}
+                                <div class="mb-3">
+                                    <small class="d-block text-muted mb-1">
+                                        <i class="fas fa-map-marker-alt me-1"></i>
+                                        {{ internship.location }}
+                                    </small>
+                                    <small class="d-block text-muted">
+                                        <i class="fas fa-calendar-alt me-1"></i>
+                                        {{ internship.duration }} months
+                                    </small>
+                                </div>
+
+                                {# Match Score Progress Bar #}
+                                <div class="mb-3">
+                                    <div class="progress" style="height: 8px;">
+                                        <div class="progress-bar bg-{{ score >= 90 ? 'success' : (score >= 75 ? 'info' : (score >= 60 ? 'warning' : 'secondary')) }}" 
+                                            role="progressbar" 
+                                            style="width: {{ score }}%"
+                                            aria-valuenow="{{ score }}" 
+                                            aria-valuemin="0" 
+                                            aria-valuemax="100">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {# Skills #}
+                                <div class="mb-3">
+                                    {% for skill in internship.requiredSkills|slice(0, 3) %}
+                                        <span class="badge bg-light text-dark me-1">{{ skill }}</span>
+                                    {% endfor %}
+                                    {% if internship.requiredSkills|length > 3 %}
+                                        <span class="badge bg-light text-dark">+{{ internship.requiredSkills|length - 3 }}</span>
+                                    {% endif %}
+                                </div>
+
+                                {# Action Button #}
+                                <a href="{{ path('student_internship_details', {id: internship.id}) }}" class="btn btn-primary w-100">
+                                    Apply Now
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+
+    {# All Internships Section #}
+    <div>
+        <h4 class="mb-3">
+            <i class="fas fa-briefcase me-2"></i>
+            All Available Internships
+        </h4>
+
+        {% if allInternships is empty %}
+            <div class="alert alert-warning">
+                <i class="fas fa-exclamation-triangle me-2"></i>
+                No internships available at the moment.
+            </div>
+        {% else %}
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle">
+                            <thead>
+                                <tr>
+                                    <th>Position</th>
+                                    <th>Company</th>
+                                    <th>Location</th>
+                                    <th>Duration</th>
+                                    <th>Posted</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for internship in allInternships|slice(0, 10) %}
+                                    <tr>
+                                        <td>
+                                            <strong>{{ internship.title }}</strong>
+                                        </td>
+                                        <td>{{ internship.company.companyName }}</td>
+                                        <td>
+                                            <i class="fas fa-map-marker-alt text-muted me-1"></i>
+                                            {{ internship.location }}
+                                        </td>
+                                        <td>{{ internship.duration }} months</td>
+                                        <td>
+                                            <small class="text-muted">
+                                                {{ internship.postedAt|date('M d, Y') }}
+                                            </small>
+                                        </td>
+                                        <td>
+                                            <a href="{{ path('student_internship_details', {id: internship.id}) }}" 
+                                            class="btn btn-sm btn-outline-primary">
+                                                View Details
+                                            </a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    {% if allInternships|length > 10 %}
+                        <div class="text-center mt-3">
+                            <a href="{{ path('student_internships') }}" class="btn btn-primary">
+                                View All {{ allInternships|length }} Internships
+                            </a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('css/student/dashboard.css') }}" />
+{% endblock %}

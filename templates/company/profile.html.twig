@@ -1,0 +1,202 @@
+{% extends 'company/base.html.twig' %}
+
+{% block title %}Company Profile - InternMatch{% endblock %}
+
+{% block company_content %}
+<div class="container-fluid py-4">
+    <div class="row mb-4">
+        <div class="col">
+            <h1 class="h3 mb-0">Company Profile</h1>
+            <p class="text-muted">Manage your company information</p>
+        </div>
+    </div>
+
+    <div class="row">
+        {# Company Summary Card #}
+        <div class="col-lg-4 mb-4">
+            <div class="card border-0 shadow-sm">
+                <div class="card-body text-center p-4">
+                    {# Company Logo Placeholder #}
+                    <div class="company-logo-placeholder bg-primary bg-opacity-10 mx-auto mb-3">
+                        <i class="fas fa-building fa-3x text-primary"></i>
+                    </div>
+                    
+                    <h4 class="mb-1">{{ company.companyName }}</h4>
+                    <p class="text-muted mb-3">{{ company.email }}</p>
+                    
+                    <div class="d-grid gap-2 mb-3">
+                        <span class="badge bg-primary p-2">
+                            <i class="fas fa-building me-2"></i>
+                            {{ company.industry }}
+                        </span>
+                        {% if company.isVerified %}
+                            <span class="badge bg-success p-2">
+                                <i class="fas fa-check-circle me-2"></i>
+                                Verified Company
+                            </span>
+                        {% endif %}
+                    </div>
+
+                    <hr class="my-4">
+
+                    {# Quick Stats #}
+                    <div class="row text-center">
+                        <div class="col-6 border-end">
+                            <h5 class="mb-0 text-primary">{{ company.internships|length }}</h5>
+                            <small class="text-muted">Internships</small>
+                        </div>
+                        <div class="col-6">
+                            {% set totalApps = 0 %}
+                            {% for internship in company.internships %}
+                                {% set totalApps = totalApps + internship.applications|length %}
+                            {% endfor %}
+                            <h5 class="mb-0 text-success">{{ totalApps }}</h5>
+                            <small class="text-muted">Applications</small>
+                        </div>
+                    </div>
+
+                    <hr class="my-4">
+
+                    {# Account Info #}
+                    <div class="text-start">
+                        <small class="text-muted d-block mb-2">
+                            <i class="fas fa-calendar-alt me-2"></i>
+                            <strong>Member since:</strong> {{ company.createdAt|date('M d, Y') }}
+                        </small>
+                        <small class="text-muted d-block">
+                            <i class="fas fa-map-marker-alt me-2"></i>
+                            <strong>Location:</strong> {{ company.location }}
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {# Profile Edit Form #}
+        <div class="col-lg-8">
+            <div class="card border-0 shadow-sm">
+                <div class="card-header bg-white border-bottom py-3">
+                    <h5 class="mb-0">
+                        <i class="fas fa-edit me-2"></i>
+                        Company Information
+                    </h5>
+                </div>
+
+                <div class="card-body p-4">
+                    <form method="post" action="{{ path('company_profile_update') }}" id="profileForm">
+                        <div class="mb-4">
+                            <label for="companyName" class="form-label fw-semibold">
+                                Company Name <span class="text-danger">*</span>
+                            </label>
+                            <input type="text" 
+                                   class="form-control" 
+                                   id="companyName" 
+                                   name="companyName" 
+                                   value="{{ company.companyName }}" 
+                                   required>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="email" class="form-label fw-semibold">
+                                Email Address
+                            </label>
+                            <input type="email" 
+                                   class="form-control" 
+                                   id="email" 
+                                   value="{{ company.email }}" 
+                                   disabled>
+                            <small class="text-muted">Email cannot be changed</small>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-4">
+                                <label for="industry" class="form-label fw-semibold">
+                                    Industry <span class="text-danger">*</span>
+                                </label>
+                                <select class="form-select" id="industry" name="industry" required>
+                                    <option value="">Select industry...</option>
+                                    <option value="Technology" {{ company.industry == 'Technology' ? 'selected' : '' }}>Technology</option>
+                                    <option value="Finance" {{ company.industry == 'Finance' ? 'selected' : '' }}>Finance</option>
+                                    <option value="Healthcare" {{ company.industry == 'Healthcare' ? 'selected' : '' }}>Healthcare</option>
+                                    <option value="Education" {{ company.industry == 'Education' ? 'selected' : '' }}>Education</option>
+                                    <option value="Marketing" {{ company.industry == 'Marketing' ? 'selected' : '' }}>Marketing</option>
+                                    <option value="Consulting" {{ company.industry == 'Consulting' ? 'selected' : '' }}>Consulting</option>
+                                    <option value="Manufacturing" {{ company.industry == 'Manufacturing' ? 'selected' : '' }}>Manufacturing</option>
+                                    <option value="Retail" {{ company.industry == 'Retail' ? 'selected' : '' }}>Retail</option>
+                                    <option value="Other" {{ company.industry == 'Other' ? 'selected' : '' }}>Other</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-6 mb-4">
+                                <label for="location" class="form-label fw-semibold">
+                                    Location <span class="text-danger">*</span>
+                                </label>
+                                <input type="text" 
+                                       class="form-control" 
+                                       id="location" 
+                                       name="location" 
+                                       value="{{ company.location }}" 
+                                       placeholder="e.g., Paris, France"
+                                       required>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="website" class="form-label fw-semibold">
+                                Website (Optional)
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text">
+                                    <i class="fas fa-globe"></i>
+                                </span>
+                                <input type="url" 
+                                       class="form-control" 
+                                       id="website" 
+                                       name="website" 
+                                       value="{{ company.website }}" 
+                                       placeholder="https://www.yourcompany.com">
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="description" class="form-label fw-semibold">
+                                Company Description
+                            </label>
+                            <textarea class="form-control" 
+                                      id="description" 
+                                      name="description" 
+                                      rows="5"
+                                      placeholder="Describe your company, mission, and culture...">{{ company.description }}</textarea>
+                            <small class="text-muted">
+                                {{ company.description ? company.description|length : 0 }}/1000 characters
+                            </small>
+                        </div>
+
+                        {# Action Buttons #}
+                        <div class="d-flex justify-content-between align-items-center pt-4 border-top">
+                            <a href="{{ path('company_dashboard') }}" class="btn btn-outline-secondary">
+                                <i class="fas fa-arrow-left me-2"></i>
+                                Back to Dashboard
+                            </a>
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="fas fa-save me-2"></i>
+                                Save Changes
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+<link rel="stylesheet" href="{{ asset('css/company/profile.css') }}" />
+{% endblock %}  
+{% block javascripts %}
+{{ parent() }}
+<script src="{{ asset('js/company/profile.js') }}"></script>
+
+{% endblock %}

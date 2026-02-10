@@ -1,0 +1,279 @@
+{% extends 'admin/base.html.twig' %} {% block page_title %}Advanced Statistics{%
+endblock %} {% block admin_stylesheets %}
+<link rel="stylesheet" href="{{ asset('css/admin/statistics.css') }}" />
+{% endblock %} {% block admin_content %}
+<div class="statistics-container">
+    <div class="page-header">
+        <div>
+            <h2>
+                <i class="fas fa-chart-bar"></i> Advanced Statistics & Analytics
+            </h2>
+            <p class="text-muted">Comprehensive insights and data analysis</p>
+        </div>
+    </div>
+
+    {# Key Metrics Cards #}
+    <div class="metrics-grid">
+        {# Success Rate Card #}
+        <div class="metric-card">
+            <div class="metric-icon metric-success">
+                <i class="fas fa-percentage"></i>
+            </div>
+            <div class="metric-content">
+                <h3 class="metric-value">{{ successRate }}%</h3>
+                <p class="metric-label">Application Success Rate</p>
+                <small class="text-muted"
+                    >{{ acceptedApplications }} of
+                    {{ totalApplications }} applications accepted</small
+                >
+            </div>
+        </div>
+
+        {# Average Match Score Card #}
+        <div class="metric-card">
+            <div class="metric-icon metric-match">
+                <i class="fas fa-bullseye"></i>
+            </div>
+            <div class="metric-content">
+                <h3 class="metric-value">{{ avgMatchScore }}%</h3>
+                <p class="metric-label">Average Match Score</p>
+                <small class="text-muted">Overall compatibility rating</small>
+            </div>
+        </div>
+
+        {# Top Industries Count Card #}
+        <div class="metric-card">
+            <div class="metric-icon metric-industries">
+                <i class="fas fa-industry"></i>
+            </div>
+            <div class="metric-content">
+                <h3 class="metric-value">{{ topIndustries | length }}</h3>
+                <p class="metric-label">Active Industries</p>
+                <small class="text-muted">Top performing sectors</small>
+            </div>
+        </div>
+
+        {# Most Active Companies Card #}
+        <div class="metric-card">
+            <div class="metric-icon metric-companies">
+                <i class="fas fa-fire"></i>
+            </div>
+            <div class="metric-content">
+                <h3 class="metric-value">{{ mostActiveCompanies | length }}</h3>
+                <p class="metric-label">Active Companies</p>
+                <small class="text-muted">Companies with applications</small>
+            </div>
+        </div>
+    </div>
+
+    {# Charts Section #}
+    <div class="charts-section">
+        {# Row 1: Two Charts Side by Side #}
+        <div class="row">
+            {# Top Industries Bar Chart #}
+            <div class="col-md-6">
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3>
+                            <i class="fas fa-chart-bar"></i> Top 5 Industries
+                        </h3>
+                        <p class="chart-subtitle">
+                            Internships and applications by industry
+                        </p>
+                    </div>
+                    <div class="chart-body">
+                        <canvas id="topIndustriesChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            {# Match Score Distribution Histogram #}
+            <div class="col-md-6">
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3>
+                            <i class="fas fa-chart-column"></i> Match Score
+                            Distribution
+                        </h3>
+                        <p class="chart-subtitle">
+                            Number of applications by score range
+                        </p>
+                    </div>
+                    <div class="chart-body">
+                        <canvas id="matchScoreDistributionChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {# Row 2: Monthly Trends Line Chart (Full Width) #}
+        <div class="row">
+            <div class="col-12">
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3>
+                            <i class="fas fa-chart-line"></i> Monthly Trends
+                        </h3>
+                        <p class="chart-subtitle">
+                            Applications and internships over the last 6 months
+                        </p>
+                    </div>
+                    <div class="chart-body">
+                        <canvas id="monthlyTrendsChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{# Data Tables Section #}
+    <div class="data-tables-section">
+        <div class="row">
+            
+            {# Most Active Companies Table #}
+            <div class="col-md-6">
+                <div class="data-table-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-trophy"></i> Most Active Companies</h3>
+                    </div>
+                    <div class="table-responsive">
+                        {% if mostActiveCompanies is empty %}
+                            <div class="empty-state-small">
+                                <i class="fas fa-building-slash"></i>
+                                <p>No active companies yet</p>
+                            </div>
+                        {% else %}
+                            <table class="table table-sm">
+                                <thead>
+                                    <tr>
+                                        <th>Rank</th>
+                                        <th>Company</th>
+                                        <th>Internships</th>
+                                        <th>Applications</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for index, stat in mostActiveCompanies %}
+                                        <tr>
+                                            <td>
+                                                <span class="rank-badge rank-{{ index + 1 }}">
+                                                    #{{ index + 1 }}
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <strong>{{ stat.company.companyName }}</strong>
+                                                <br>
+                                                <small class="text-muted">{{ stat.company.industry }}</small>
+                                            </td>
+                                            <td>
+                                                <span class="badge badge-primary">
+                                                    {{ stat.internshipCount }}
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span class="badge badge-info">
+                                                    {{ stat.applicationCount }}
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            {# Industry Performance Table #}
+            <div class="col-md-6">
+                <div class="data-table-card">
+                    <div class="card-header">
+                        <h3><i class="fas fa-industry"></i> Industry Performance</h3>
+                    </div>
+                    <div class="table-responsive">
+                        {% if topIndustries is empty %}
+                            <div class="empty-state-small">
+                                <i class="fas fa-chart-simple"></i>
+                                <p>No industry data yet</p>
+                            </div>
+                        {% else %}
+                            <table class="table table-sm">
+                                <thead>
+                                    <tr>
+                                        <th>Industry</th>
+                                        <th>Internships</th>
+                                        <th>Applications</th>
+                                        <th>Avg. per Internship</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for industry, data in topIndustries %}
+                                        <tr>
+                                            <td><strong>{{ industry }}</strong></td>
+                                            <td>
+                                                <span class="badge badge-primary">
+                                                    {{ data.internships }}
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span class="badge badge-info">
+                                                    {{ data.applications }}
+                                                </span>
+                                            </td>
+                                            <td>
+                                                {% set avgApps = data.internships > 0 ? (data.applications / data.internships)|round(1) : 0 %}
+                                                <span class="badge badge-success">
+                                                    {{ avgApps }}
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+{% endblock %}
+
+{% block admin_javascripts %}
+    {# Chart.js Library #}
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    
+    {# Pass data to JavaScript #}
+    <script>
+        // Top Industries Data
+        const topIndustriesData = {
+            {% for industry, data in topIndustries %}
+                "{{ industry }}": {
+                    internships: {{ data.internships }},
+                    applications: {{ data.applications }}
+                }{% if not loop.last %},{% endif %}
+            {% endfor %}
+        };
+
+        // Match Score Distribution Data
+        const matchScoreDistribution = {
+            {% for range, count in matchScoreDistribution %}
+                "{{ range }}": {{ count }}{% if not loop.last %},{% endif %}
+            {% endfor %}
+        };
+
+        // Monthly Trends Data
+        const monthlyTrendsData = {
+            {% for month, data in monthlyTrends %}
+                "{{ month }}": {
+                    applications: {{ data.applications }},
+                    internships: {{ data.internships }}
+                }{% if not loop.last %},{% endif %}
+            {% endfor %}
+        };
+    </script>
+    
+    <script src="{{ asset('js/admin/statistics.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,359 @@
+/* =========================================
+   ADMIN INTERNSHIPS STYLES
+   Filters and internship management
+   ========================================= */
+
+.internships-container {
+    max-width: 1400px;
+}
+
+/* =========================================
+   PAGE HEADER
+   ========================================= */
+
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.page-header h2 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0 0 0.25rem 0;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.page-header h2 i {
+    color: #2563eb;
+}
+
+.page-header .text-muted {
+    font-size: 0.875rem;
+    margin: 0;
+}
+
+/* =========================================
+   FILTERS SECTION
+   ========================================= */
+
+.filters-section {
+    background: white;
+    border-radius: 12px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.filters-form .input-group-text {
+    background: white;
+    border-right: none;
+    color: #64748b;
+}
+
+.filters-form .form-control,
+.filters-form .form-select {
+    border-left: none;
+}
+
+.filters-form .form-control:focus,
+.filters-form .form-select:focus {
+    border-color: #2563eb;
+    box-shadow: none;
+}
+
+.filters-form .btn-primary {
+    background: #2563eb;
+    border-color: #2563eb;
+}
+
+.filters-form .btn-primary:hover {
+    background: #1e40af;
+    border-color: #1e40af;
+}
+
+/* =========================================
+   RESULTS INFO
+   ========================================= */
+
+.results-info {
+    background: #f8fafc;
+    border-radius: 8px;
+    padding: 1rem 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.results-info p {
+    margin: 0;
+    color: #475569;
+    font-size: 0.875rem;
+}
+
+/* =========================================
+   INTERNSHIPS TABLE
+   ========================================= */
+
+.internships-table {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    margin: 0;
+}
+
+.internships-table thead {
+    background: #f8fafc;
+    border-bottom: 2px solid #e2e8f0;
+}
+
+.internships-table th {
+    font-weight: 600;
+    color: #475569;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 1rem;
+    border: none;
+}
+
+.internships-table td {
+    padding: 1rem;
+    vertical-align: middle;
+    border-color: #f1f5f9;
+}
+
+.internships-table tbody tr {
+    transition: background-color 0.2s ease;
+}
+
+.internships-table tbody tr:hover {
+    background-color: #f8fafc;
+}
+
+/* Internship Title */
+.internship-title strong {
+    color: #1e293b;
+    font-size: 0.9375rem;
+}
+
+.internship-title small {
+    color: #64748b;
+    font-size: 0.8125rem;
+}
+
+/* Company Info */
+.company-info {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+}
+
+.company-info i {
+    color: #64748b;
+    margin-top: 0.25rem;
+}
+
+.company-info strong {
+    color: #1e293b;
+}
+
+.company-info .badge {
+    margin-top: 0.25rem;
+}
+
+/* Industry Badge */
+.industry-badge {
+    display: inline-block;
+    padding: 0.375rem 0.75rem;
+    background: rgba(139, 92, 246, 0.1);
+    color: #7c3aed;
+    border-radius: 6px;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+/* Status Badges */
+.badge-success {
+    background: #dcfce7;
+    color: #166534;
+    padding: 0.375rem 0.75rem;
+    font-weight: 500;
+}
+
+.badge-secondary {
+    background: #f1f5f9;
+    color: #64748b;
+    padding: 0.375rem 0.75rem;
+    font-weight: 500;
+}
+
+.badge-info {
+    background: #dbeafe;
+    color: #1e40af;
+    padding: 0.375rem 0.75rem;
+    font-weight: 500;
+}
+
+.badge-warning {
+    background: #fef3c7;
+    color: #92400e;
+    padding: 0.375rem 0.75rem;
+    font-weight: 500;
+}
+
+.badge-sm {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+}
+
+/* =========================================
+   ACTION BUTTONS
+   ========================================= */
+
+.action-buttons {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+}
+
+.action-buttons .btn {
+    padding: 0.375rem 0.75rem;
+}
+
+.action-buttons .btn i {
+    font-size: 0.875rem;
+}
+
+.action-buttons .btn-info {
+    background: #0ea5e9;
+    border-color: #0ea5e9;
+    color: white;
+}
+
+.action-buttons .btn-info:hover {
+    background: #0284c7;
+    border-color: #0284c7;
+}
+
+.action-buttons .btn-warning {
+    background: #f59e0b;
+    border-color: #f59e0b;
+    color: white;
+}
+
+.action-buttons .btn-warning:hover {
+    background: #d97706;
+    border-color: #d97706;
+}
+
+.action-buttons .btn-success {
+    background: #10b981;
+    border-color: #10b981;
+}
+
+.action-buttons .btn-success:hover {
+    background: #059669;
+    border-color: #059669;
+}
+
+.action-buttons .btn-danger {
+    background: #ef4444;
+    border-color: #ef4444;
+}
+
+.action-buttons .btn-danger:hover {
+    background: #dc2626;
+    border-color: #dc2626;
+}
+
+/* =========================================
+   MODAL STYLES
+   ========================================= */
+
+.modal-header {
+    background: #f8fafc;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.modal-title {
+    font-weight: 600;
+    color: #1e293b;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.modal-title i {
+    color: #2563eb;
+}
+
+/* =========================================
+   EMPTY STATE
+   ========================================= */
+
+.empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+    color: #94a3b8;
+    background: white;
+    border-radius: 12px;
+}
+
+.empty-state i {
+    font-size: 4rem;
+    color: #cbd5e1;
+    margin-bottom: 1rem;
+}
+
+.empty-state p {
+    font-size: 1.125rem;
+    margin: 0;
+}
+
+/* =========================================
+   RESPONSIVE DESIGN
+   ========================================= */
+
+@media (max-width: 992px) {
+    .page-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+
+    .filters-form .row {
+        gap: 1rem;
+    }
+
+    .filters-form .col-md-2,
+    .filters-form .col-md-3,
+    .filters-form .col-md-4 {
+        width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .page-header h2 {
+        font-size: 1.5rem;
+    }
+
+    .filters-section {
+        padding: 1rem;
+    }
+
+    .internships-table {
+        font-size: 0.875rem;
+    }
+
+    .internships-table th,
+    .internships-table td {
+        padding: 0.75rem 0.5rem;
+    }
+
+    .action-buttons {
+        flex-direction: column;
+    }
+}

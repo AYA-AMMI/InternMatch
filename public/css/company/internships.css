@@ -1,0 +1,23 @@
+.status-badge {
+    padding: 0.5rem 1rem;
+    font-weight: 600;
+    font-size: 0.75rem;
+}
+
+.status-active {
+    background-color: #d1fae5;
+    color: #065f46;
+}
+
+.status-closed {
+    background-color: #fee2e2;
+    color: #991b1b;
+}
+
+.table tbody tr {
+    transition: background-color 0.2s;
+}
+
+.table tbody tr:hover {
+    background-color: #f9fafb;
+}

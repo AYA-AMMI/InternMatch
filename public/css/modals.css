@@ -1,0 +1,40 @@
+/* Modal improvements */
+.modal-content {
+    border-radius: 12px;
+    border: none;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+}
+
+.modal-header {
+    border-radius: 12px 12px 0 0;
+    padding: 1.25rem 1.5rem;
+}
+
+.modal-body {
+    padding: 1.5rem;
+}
+
+.modal-footer {
+    border-top: 1px solid #e5e7eb;
+    padding: 1rem 1.5rem;
+}
+
+/* Score circle animation */
+.score-circle {
+    transition: transform 0.3s ease;
+}
+
+.score-circle:hover {
+    transform: scale(1.05);
+}
+
+/* Info boxes in modals */
+.internship-info,
+.student-info,
+.application-info {
+    border-left: 4px solid #3b82f6;
+}
+
+.internship-summary {
+    border-left: 4px solid #10b981;
+}
